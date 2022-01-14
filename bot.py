@@ -17,7 +17,7 @@ dumb_words = {
 }
 
 # Enable logger
-logging.basicConfig(level=logging.DEBUG,format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO,format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 def am_on(update: Update, context: CallbackContext):
@@ -26,7 +26,34 @@ def am_on(update: Update, context: CallbackContext):
     else:
         update.message.reply_text('Sí, {}.'.format(dumb_words[randint(0,5)]))
 
+def wdid(update: Update, context: CallbackContext):
+    if update.message.chat_id != chat_id:
+        update.message.reply_text('A hablarte, no.')
+    else:
+        update.message.reply_text('Ahora mismo me dedico a guardar vuestros resultados de Wordle para cositas que se vendrán... 😏')
 
+def wordlerank(update: Update, context: CallbackContext):
+    if update.message.chat_id != chat_id:
+        update.message.reply_text('¿Qué quieres?')
+    else:
+        with open("saves/overall.csv") as f:
+            rank = f.read().split('\n')
+        
+        users = []
+        points = []
+        for p in rank:
+            users.append(p.split(',')[0])
+            points.append(p.split(',')[1])
+        users = [x for _,x in sorted(zip(points,users))]
+        points = sorted(points)
+
+        output = '⬜🟨🟩CLASIFICACIÓN🟩🟨⬜\n'
+        k = 0
+        while k < len(users):
+            output += '\n{}. {} - {} puntos'.format(str(k+1), users[k], points[k])
+            k += 1
+        update.message.reply_text(output)
+        
 
 def check_wordle(update: Update, context: CallbackContext):
     if update.message.chat_id != chat_id:
@@ -57,7 +84,9 @@ def main():
 
     dispatcher = updater.dispatcher
 
+    dispatcher.add_handler(CommandHandler("quehaces",wdid))
     dispatcher.add_handler(CommandHandler("encendido", am_on))
+    dispatcher.add_handler(CommandHandler("wordlerank", wordlerank))
     dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, check_wordle))
 
     updater.start_polling()
