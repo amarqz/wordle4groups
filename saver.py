@@ -44,6 +44,7 @@ def update_ranking(name,pts):
                 pts = int(l.split(',')[1]) + pts
                 l = '{},{}\n'.format(name,pts)
             nl.append(l)
+        nl[-1] = nl[-1].strip()
         with open('saves/overall.csv','w') as f:
             f.writelines(nl)
         
