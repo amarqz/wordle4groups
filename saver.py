@@ -22,6 +22,7 @@ def save(msg):
 def interpret(string) -> str:
     options = {
         '⬜' : 'W',
+        '⬛' : 'W',
         '🟨' : 'Y',
         '🟩' : 'G'
     }
