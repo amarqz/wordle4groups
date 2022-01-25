@@ -28,7 +28,7 @@ def am_on(update: Update, context: CallbackContext):
 
 def wdid(update: Update, context: CallbackContext):
     if update.message.chat_id != chat_id:
-        update.message.reply_text('A hablarte, no.')
+        update.message.reply_text('Hablar contigo, no.')
     else:
         update.message.reply_text('Ahora mismo me dedico a guardar vuestros resultados de Wordle para cositas que se vendrán... 😏')
 
@@ -38,18 +38,15 @@ def wordlerank(update: Update, context: CallbackContext):
     else:
         with open("saves/overall.csv") as f:
             rank = f.read().split('\n')
-        
-        users = []
-        points = []
+
+        scoreboard = {}
         for p in rank:
-            users.append(p.split(',')[0])
-            points.append(p.split(',')[1])
-        users = [x for _,x in sorted(zip(points,users),reverse=True)]
-        points = sorted(points,reverse=True)
+            scoreboard[p.split(',')[0]] = int(p.split(',')[1])
+        scoreboard = sorted(scoreboard.items(), key=lambda x:x[1], reverse=True)
 
         output = '⬜🟨🟩CLASIFICACIÓN🟩🟨⬜\n'
-        for k in range(len(users)):
-            output += '\n{}. {} - {} puntos'.format(str(k+1), users[k], points[k])
+        for k,i in enumerate(scoreboard,start=1):
+            output += '\n{}. {} - {} puntos'.format(str(k), i[0], i[1])
         update.message.reply_text(output)
         
 
@@ -75,8 +72,8 @@ def check_wordle(update: Update, context: CallbackContext):
         except:
             return
 
-def main():
     updater = Updater("TOKEN")
+def run_bot():
 
     dispatcher = updater.dispatcher
 
@@ -91,4 +88,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    run_bot()
