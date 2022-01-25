@@ -6,10 +6,8 @@ def save(msg):
     to_save = to_save + '{},'.format(msg[1])
     to_save = to_save + '{}'.format(msg[2])
 
-    i = 0
-    while i < msg[2]:
+    for i in range(msg[2]):
         to_save = to_save + ',{}'.format(interpret(msg[i+3]))
-        i = i+1
 
     if pt.exists('saves/day{}.csv'.format(msg[1])):
         with open('saves/day{}.csv'.format(msg[1]),'a') as f:

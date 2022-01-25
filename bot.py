@@ -48,10 +48,8 @@ def wordlerank(update: Update, context: CallbackContext):
         points = sorted(points,reverse=True)
 
         output = '⬜🟨🟩CLASIFICACIÓN🟩🟨⬜\n'
-        k = 0
-        while k < len(users):
+        for k in range(len(users)):
             output += '\n{}. {} - {} puntos'.format(str(k+1), users[k], points[k])
-            k += 1
         update.message.reply_text(output)
         
 
@@ -68,10 +66,8 @@ def check_wordle(update: Update, context: CallbackContext):
 
             content = [username, day, tries]
 
-            i = 0
-            while(i<tries):
+            for i in range(tries):
                 content.append(msg[i+2])
-                i = i + 1
 
             save(content)
 
