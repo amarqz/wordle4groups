@@ -44,8 +44,8 @@ def wordlerank(update: Update, context: CallbackContext):
         for p in rank:
             users.append(p.split(',')[0])
             points.append(p.split(',')[1])
-        users = [x for _,x in sorted(zip(points,users))]
-        points = sorted(points)
+        users = [x for _,x in sorted(zip(points,users),reverse=True)]
+        points = sorted(points,reverse=True)
 
         output = '⬜🟨🟩CLASIFICACIÓN🟩🟨⬜\n'
         k = 0

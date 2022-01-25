@@ -33,7 +33,7 @@ def interpret(string) -> str:
     
     return new_string
 
-def update_ranking(name,pts):
+def update_ranking(name,tries):
     if pt.exists('saves/overall.csv'):
         with open('saves/overall.csv','r') as f:
             lines = f.readlines()
@@ -41,7 +41,7 @@ def update_ranking(name,pts):
         nl =[]
         for l in lines:
             if name in l:
-                pts = int(l.split(',')[1]) + pts
+                pts = int(l.split(',')[1]) + 7 - tries
                 l = '{},{}\n'.format(name,pts)
             nl.append(l)
         nl[-1] = nl[-1].strip()
@@ -50,4 +50,4 @@ def update_ranking(name,pts):
         
     else:
         with open('saves/overall.csv','w') as f:
-            f.write('{},{}'.format(name,pts) + '\n')
+            f.write('{},{}'.format(name,7-tries) + '\n')
