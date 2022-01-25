@@ -48,7 +48,23 @@ def wordlerank(update: Update, context: CallbackContext):
         for k,i in enumerate(scoreboard,start=1):
             output += '\n{}. {} - {} puntos'.format(str(k), i[0], i[1])
         update.message.reply_text(output)
-        
+
+def avg_pts(update: Update, context: CallbackContext):
+    if update.message.chat_id != chat_id:
+        update.message.reply_text('Shhhh')
+    else:
+        with open("saves/average.csv") as f:
+            rank = f.read().split('\n')
+
+        scoreboard = {}
+        for p in rank:
+            scoreboard[p.split(',')[0]] = round(float(p.split(',')[1]),2)
+        scoreboard = sorted(scoreboard.items(), key=lambda x:x[1])
+
+        output = '⬜🟨🟩PUNTUACIÓN MEDIA🟩🟨⬜\n'
+        for k,i in enumerate(scoreboard,start=1):
+            output += '\n{}. {} - {} puntos'.format(str(k), i[0], i[1])
+        update.message.reply_text(output)
 
 def check_wordle(update: Update, context: CallbackContext):
     if update.message.chat_id != chat_id:
@@ -77,9 +93,10 @@ def run_bot():
 
     dispatcher = updater.dispatcher
 
-    dispatcher.add_handler(CommandHandler("quehaces",wdid))
+    dispatcher.add_handler(CommandHandler("quehaces", wdid))
     dispatcher.add_handler(CommandHandler("encendido", am_on))
     dispatcher.add_handler(CommandHandler("wordlerank", wordlerank))
+    dispatcher.add_handler(CommandHandler("media", avg_pts))
     dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, check_wordle))
 
     updater.start_polling()

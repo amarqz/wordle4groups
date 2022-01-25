@@ -13,6 +13,7 @@ def save(msg):
         with open('saves/day{}.csv'.format(msg[1]),'w') as f:
             f.write(to_save + '\n')
     update_ranking(msg[0],msg[2])
+    update_average(msg[0],msg[2])
 
 def interpret(string) -> str:
     options = {
@@ -51,3 +52,28 @@ def update_ranking(name,tries):
     else:
         with open('saves/overall.csv','w') as f:
             f.write('{},{}'.format(name,7-tries))
+
+def update_average(name,tries):
+    if pt.exists('saves/average.csv'):
+        with open('saves/average.csv','r') as f:
+            lines = f.readlines()
+
+        nl = []
+        new = True
+        for l in lines:
+            if name in l:
+                games = int(l.split(',')[2]) + 1
+                avg = (float(l.split(',')[1])*(games-1) + tries)/games
+                l = '{},{},{}\n'.format(name,avg,games)
+                new = False
+            nl.append(l)
+        if new:
+            nl[-1] = nl[-1] + '\n'
+            nl.append('{},{},1'.format(name,tries))
+        nl[-1] = nl[-1].strip()
+        with open('saves/average.csv','w') as f:
+            f.writelines(nl)
+        
+    else:
+        with open('saves/average.csv','w') as f:
+            f.write('{},{},1'.format(name,tries))
