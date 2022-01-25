@@ -75,8 +75,7 @@ def check_wordle(update: Update, context: CallbackContext):
             msg = update.message.text.split('\n')
             username = update.effective_user.first_name
             day = int(msg[0].split(' ')[2].replace('#',''))
-            tries = int(msg[0].split(' ')[3][0])
-
+            tries = int(msg[0].split(' ')[3][0]) if msg[0].split(' ')[3][0] != 'X' else 7
             content = [username, day, tries]
 
             for i in range(tries):

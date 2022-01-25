@@ -3,7 +3,8 @@ import os.path as pt
 def save(msg):
     to_save = '{},{},{}'.format(msg[0],msg[1],msg[2])
 
-    for i in range(msg[2]):
+    rlim = 6 if msg[2] == 7 else msg[2]
+    for i in range(rlim):
         to_save = to_save + ',{}'.format(interpret(msg[i+3]))
 
     if pt.exists('saves/day{}.csv'.format(msg[1])):
