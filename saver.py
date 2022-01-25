@@ -1,10 +1,7 @@
 import os.path as pt
 
 def save(msg):
-    to_save = ''
-    to_save = to_save + '{},'.format(msg[0])
-    to_save = to_save + '{},'.format(msg[1])
-    to_save = to_save + '{}'.format(msg[2])
+    to_save = '{},{},{}'.format(msg[0],msg[1],msg[2])
 
     for i in range(msg[2]):
         to_save = to_save + ',{}'.format(interpret(msg[i+3]))
@@ -36,16 +33,21 @@ def update_ranking(name,tries):
         with open('saves/overall.csv','r') as f:
             lines = f.readlines()
 
-        nl =[]
+        nl = []
+        new = True
         for l in lines:
             if name in l:
                 pts = int(l.split(',')[1]) + 7 - tries
                 l = '{},{}\n'.format(name,pts)
+                new = False
             nl.append(l)
+        if new:
+            nl[-1] = nl[-1] + '\n'
+            nl.append('{},{}'.format(name,7-tries))
         nl[-1] = nl[-1].strip()
         with open('saves/overall.csv','w') as f:
             f.writelines(nl)
         
     else:
         with open('saves/overall.csv','w') as f:
-            f.write('{},{}'.format(name,7-tries) + '\n')
+            f.write('{},{}'.format(name,7-tries))
