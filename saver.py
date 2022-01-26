@@ -40,13 +40,10 @@ def update_ranking(id,name,tries):
         with open('saves/overall.csv','r') as f:
             lines = f.readlines()
 
-        print('flag1')
         nl = []
         new = True
         for l in lines:
-            print('flag2')
             if id in l:
-                print('flag3')
                 pts = int(l.split(',')[2]) + 7 - tries
                 l = '{},{},{}\n'.format(str(id),name,pts)
                 new = False
