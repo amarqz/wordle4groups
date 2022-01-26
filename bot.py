@@ -41,7 +41,7 @@ def wordlerank(update: Update, context: CallbackContext):
 
         scoreboard = {}
         for p in rank:
-            scoreboard[p.split(',')[0]] = int(p.split(',')[1])
+            scoreboard[p.split(',')[1]] = int(p.split(',')[2])
         scoreboard = sorted(scoreboard.items(), key=lambda x:x[1], reverse=True)
 
         output = '⬜🟨🟩CLASIFICACIÓN🟩🟨⬜\n'
@@ -58,7 +58,7 @@ def avg_pts(update: Update, context: CallbackContext):
 
         scoreboard = {}
         for p in rank:
-            scoreboard[p.split(',')[0]] = round(float(p.split(',')[1]),2)
+            scoreboard[p.split(',')[1]] = round(float(p.split(',')[2]),2)
         scoreboard = sorted(scoreboard.items(), key=lambda x:x[1])
 
         output = '⬜🟨🟩PUNTUACIÓN MEDIA🟩🟨⬜\n'
@@ -81,7 +81,7 @@ def check_wordle(update: Update, context: CallbackContext):
             for i in range(tries):
                 content.append(msg[i+2])
 
-            save(content)
+            save(str(update.effective_user.id),content)
 
             update.message.reply_text('Registrado ✅')
         except:
