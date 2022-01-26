@@ -1,4 +1,5 @@
 import os.path as pt
+from errors import AlreadyIn
 
 def save(id,msg):
     to_save = '{},{},{},{}'.format(id,msg[0],msg[1],msg[2])
@@ -8,6 +9,10 @@ def save(id,msg):
         to_save = to_save + ',{}'.format(interpret(msg[i+3]))
 
     if pt.exists('saves/day{}.csv'.format(msg[1])):
+        with open('saves/day{}.csv'.format(msg[1]),'r') as f:
+            for l in f.readlines():
+                if id in l:
+                    raise AlreadyIn
         with open('saves/day{}.csv'.format(msg[1]),'a') as f:
             f.write(to_save + '\n')
     else:

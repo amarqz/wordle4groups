@@ -4,6 +4,7 @@ from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 
 from saver import save
+from errors import AlreadyIn
 
 # Setting the chat ID the bot is desired to work in
 chat_id = 'CHATID'
@@ -84,8 +85,11 @@ def check_wordle(update: Update, context: CallbackContext):
             save(str(update.effective_user.id),content)
 
             update.message.reply_text('Registrado ✅')
+            
+        except AlreadyIn:
+            update.message.reply_text('Error ❎. Ya hay un resultado tuyo para ese juego. ')
         except:
-            return
+            pass
 
     updater = Updater("TOKEN")
 def run_bot():
