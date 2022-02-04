@@ -1,6 +1,9 @@
 # wordle4groups ⬜🟨🟩
 This repository is home to a Telegram bot project that processes the daily Wordle results of the users in a group.
 
+## Discontinued project
+This project's development is no longer saved in this repository and has been continued at a (https://github.com/Aldistan/wordle-telegram-bot)[new repository] where my colleagues and I are working on a similar project with a larger scope! Do not hesitate to take a look at it! 
+
 Current features:
 
 1. **Wordle result processing:** every time a player inputs their Wordle results in a text message, it is parsed and its important information is stored into .csv files. These files will be named as day#.csv, where # is the played puzzle number.
